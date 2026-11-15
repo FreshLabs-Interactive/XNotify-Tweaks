@@ -1,0 +1,4 @@
+; Exports for the config app (looked up by ordinal with XexGetProcedureAddress).
+EXPORTS
+    XNT_SetSkinPreview @1
+    XNT_GetSkinState   @2

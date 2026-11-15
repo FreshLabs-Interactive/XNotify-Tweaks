@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XNotifyTweaks", "Plugin\Plugin.vcxproj", "{3A165362-C8E5-4731-9E18-71837D3083C1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XNotifyTweaksConfig", "App\App.vcxproj", "{35A4656B-8D65-4693-B12D-BCC20C0A9B94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Xbox 360 = Debug|Xbox 360
+		Release|Xbox 360 = Release|Xbox 360
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A165362-C8E5-4731-9E18-71837D3083C1}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
+		{3A165362-C8E5-4731-9E18-71837D3083C1}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{3A165362-C8E5-4731-9E18-71837D3083C1}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
+		{3A165362-C8E5-4731-9E18-71837D3083C1}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{35A4656B-8D65-4693-B12D-BCC20C0A9B94}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
+		{35A4656B-8D65-4693-B12D-BCC20C0A9B94}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{35A4656B-8D65-4693-B12D-BCC20C0A9B94}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
+		{35A4656B-8D65-4693-B12D-BCC20C0A9B94}.Release|Xbox 360.Build.0 = Release|Xbox 360
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

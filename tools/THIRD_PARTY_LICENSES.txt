@@ -1,0 +1,12 @@
+Artwork fonts
+-------------
+art/*.png use Inter (SIL Open Font License 1.1).
+The app's embedded font (App/FontAtlas.h) and the app screenshot use DejaVu Sans
+(Bitstream Vera licence). Both licences allow embedding in software and artwork.
+
+Aurora .asset format
+--------------------
+tools/aurora_asset.py is an independent implementation of the format as
+documented by the Aurora community (jrobiche/xbox360-aurora-developer-documentation,
+Aurora Asset Editor). Its headers were checked byte-for-byte against .asset files
+known to display on hardware (NetDisc360's FastFTP360 art, MIT licence).

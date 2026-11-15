@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- DashLaunch system plugin. The base address must be 64 KB aligned and not
+     overlap another loaded module/plugin. 0x91AC0000 sits in a gap in the
+     community list (github.com/Byrom90 base address gist); change it if the
+     plugin refuses to load alongside another plugin. -->
+<xex>
+    <baseaddr addr="0x91AC0000" />
+    <sysdll />
+    <format>
+        <compressed />
+    </format>
+    <mediatypes>
+        <default />
+        <allpackages />
+    </mediatypes>
+    <gameregion>
+        <all />
+    </gameregion>
+    <!-- Notification skin package built by tools/make_skins.py. The section
+         name must match XNT_SKIN_SECTION in Shared/SkinPresets.h. -->
+    <section file="XNotifySkins.xzp" name="584E5453" memory="RO" />
+</xex>
