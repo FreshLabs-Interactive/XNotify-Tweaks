@@ -1,13 +1,13 @@
-# XNotify Tweaks
+# XNotify Tweaks By FreshLabs Interactive 2026
 
-Change where Xbox 360 notifications ("toasts") appear, and whether they show and chime, on **any dashboard**: Aurora, FSD, the stock dash, and inside games.
+Change where Xbox 360 notifications ("toasts") appear, colors, icons, and whether they show and chime, on **any dashboard**: Aurora, FSD, the stock dash, and inside games.
 
 There are two pieces:
 
 | File | What it is | Where it goes |
 |---|---|---|
-| `XNotifyTweaks.xex` | DashLaunch plugin. Loads at boot and re-applies your settings every time a title starts (a dashboard counts as a title). | `Hdd:\Plugins\XNotifyTweaks.xex` |
-| `default.xex` | **XNotify Tweaks Config**, the on-console settings app with a controller menu and live preview. | `Hdd:\Apps\XNotifyTweaks\default.xex` |
+| `XNotifyTweaks.xex` | DashLaunch plugin. Loads at boot and re-applies your settings every time a title starts (a dashboard counts as a title). | `Hdd:\XNotifyTweaks\XNotifyTweaks.xex` |
+| `default.xex` | **XNotify Tweaks Config**, the on-console settings app with a controller menu and live preview. | `Hdd:\XNotifyTweaks\default.xex` |
 
 **Why it needs a plugin:** the console resets the notification position every time a title launches, so a standalone app can only change it for itself. The plugin stays loaded across title changes and puts your settings back each time. That's what makes it work on every dashboard.
 
@@ -15,11 +15,11 @@ There are two pieces:
 
 ## 1. What you need
 
-- An RGH/JTAG console with **DashLaunch 3.21** (you have this).
+- An RGH/JTAG console with **DashLaunch 3.21**.
 - A Windows PC with:
   - **Visual Studio 2010** (with SP1). The Xbox 360 toolchain only plugs into VS2010.
   - The **Xbox 360 SDK (XDK) 2.0.21256**, the final release, installed on top of VS2010. Microsoft never released it publicly, so you'll have to source it yourself. Other XDK versions may work, but see Troubleshooting.
-  - An FTP client (FileZilla, WinSCP…). Aurora and FSD both have an FTP server built in.
+  - An FTP client (FileZilla, WinSCP…). Aurora and FSD both have an FTP server built in. Or Xbox Neighborhood.
 - Python 3 with Pillow, **only** if you want to change the app's font (`tools/gen_font.py`).
 
 ## 2. Build
@@ -34,24 +34,24 @@ There are two pieces:
 ## 3. Install
 
 1. FTP into the console and copy:
-   - `XNotifyTweaks.xex` → `Hdd:\Plugins\` (create the folder if needed)
-   - `default.xex` → `Hdd:\Apps\XNotifyTweaks\`
+   - `XNotifyTweaks.xex` → `Hdd:\XNotifyTweaks\` (create the folder if needed)
+   - `default.xex` → `Hdd:\XNotifyTweaks\`
 2. Download your `launch.ini` (normally `Hdd:\launch.ini`). Under `[Plugins]`, add the plugin on the first free line (DashLaunch allows `plugin1` to `plugin5`):
    ```ini
    [Plugins]
-   plugin1 = Hdd:\Plugins\XNotifyTweaks.xex
+   plugin1 = Hdd:\XNotifyTweaks\XNotifyTweaks.xex
    ```
    Upload it back, overwriting the old one.
 3. **Reboot the console.** With "Boot message" on (the default), you'll see an "XNotify Tweaks active" toast once the dashboard loads.
 
 ### Launching the config app
 
-- **Aurora:** add `Hdd:\Apps` as a scan path (Settings → Content → Scan Paths, type *Applications*) and rescan. *XNotify Tweaks Config* shows up under Homebrew/Applications.
-- **FSD:** add `Hdd:\Apps` as a content path (type *Homebrew*) and rescan.
+- **Aurora:** add `Hdd:\XNotifyTweaks` as a scan path (Settings → Content → Scan Paths, type *Applications*) and rescan. *XNotify Tweaks Config* shows up under Homebrew/Applications.
+- **FSD:** add `Hdd:\XNotifyTweaks` as a content path (type *Homebrew*) and rescan.
 - **Stock dashboard:** it can't browse loose `.xex` files. Either launch the app from Aurora/FSD once, or bind it to a DashLaunch quick-launch button in `launch.ini`, e.g.:
   ```ini
   [QuickLaunchButtons]
-  BUT_X = Hdd:\Apps\XNotifyTweaks\default.xex
+  BUT_X = Hdd:\XNotifyTweaks\default.xex
   ```
 
 ### Cover art in Aurora
@@ -92,20 +92,19 @@ These `.asset` files are Aurora-only; FSD and the stock dash don't use them. The
 - **Toast icon:** Left/Right cycles through the console's built-in icons. Press X to preview the selected one. This sets the icon for the toasts XNotify Tweaks sends (boot message and test). Other system notifications keep their own icons.
 - Saved settings take effect on the next title launch, which includes going back to the dashboard when you exit the app.
 
-## 4b. Custom notification skin (your Notify.xex)
+## 4b. Custom notification skin 
 
-Your animated XUI toast is built into the plugin, with 8 colour presets you can switch from the app. It's **off by default**.
+Your animated XUI toast is built into the plugin, with 24 colour presets you can switch from the app. It's **off by default**.
 
 **Turn it on:**
-1. **Remove `Notify.xex` from `launch.ini`.** Both plugins hook the same xam function, so running both would conflict.
-2. In the app, set **Custom notification skin** to On, press START to save, and reboot.
-3. Pick a colour under **Skin colors**. It applies to the next notification, so there's no reboot for colour changes. Press X to preview.
+1. In the app, set **Custom notification skin** to On, press START to save, and reboot.
+2. Pick a colour under **Skin colors**. It applies to the next notification, so there's no reboot for colour changes. Press X to preview.
 
 Switching the skin itself on or off always needs a reboot, because the hook is installed once at boot. The status line under the help text tells you whether the skin is active.
 
 **Presets (24):** Green / Purple (your design, unchanged), Red / Black, Pink / White, Red / Black / White, Blue / Silver / Black, Gold / Green, Blue / Orange, Pink / Purple, Red / Blue / White, Blue / Cyan, Ice / Blue, Teal / Navy, Mint / Teal, Orange / Gold, Orange / Pink, Crimson / Gold, Red / Grey, Purple / Green, Purple / Gold, Lime / Grey, Gold / Black, Yellow / Black, Silver / Grey, Black / White. `skins/swatches.png` gives a rough idea of each.
 
-**How it's built:** `tools/make_skins.py` takes your compiled visual (`skins/src/visual.xur`) and makes one copy per preset. Each copy only has its colour table and its visual name changed; the script checks that every other byte matches. It packs them with their scenes, your logo (`icon.png`) and the popup sound into `Plugin/XNotifySkins.xzp`. That's 58 KB, versus about 490 KB for the old package, which carried a full copy of the HUD assets. The xzp is already built. Only rerun the script if you change something:
+**How it's built:** `tools/make_skins.py` takes your compiled visual (`skins/src/visual.xur`) and makes one copy per preset. Each copy only has its colour table and its visual name changed; the script checks that every other byte matches. It packs them with their scenes, your logo (`icon.png`) and the popup sound into `Plugin/XNotifySkins.xzp`. The xzp is already built. Only rerun the script if you change something:
 
 ```
 python tools/make_skins.py --check
@@ -139,10 +138,7 @@ How it works:
 - **Your logo:** the visual's `xenonLogo1` element asks for `icon.png`, but the old package only contained `popuplogo.png`. On top of that, `XuiVisualSetBasePath(L"skin://")` pointed relative paths at the console's own skin instead of your package. Now the logo is packed as `icon.png` and the base-path call is off. If you want the old behaviour back, set `XNT_SKIN_USE_SYSTEM_BASE_PATH` to 1 in `Plugin/Skin.cpp`.
 - **The notification's icon (the Toast icon setting):** your visual draws it through the `Image` presenter. Its timeline only shows it during frames 70–120 of each loop, taking turns with the logo, and frames 125–185 hide it again. That comes from the template's design. To show the icon the whole time, open the visual in the XUI tool, edit the `Image` timeline so it stays visible, and hide `xenonLogo1`.
 
-**Not tested on hardware yet:**
-- The console might cache the popup scene after the first notification. If colour changes only show up after a reboot, that's why.
-- With 24 presets the skin package is about 150 KB. If it stops loading next to another plugin, move `<baseaddr>` in `Plugin/xex.xml` to a free 64 KB-aligned address.
-- Your old startup message ("FreshLabs RGH") is now the app's **Boot message text** setting.
+
 
 ## 5. Settings file
 
